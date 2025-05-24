@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="templates/template.xhtml">
+    <ui:define name="title">ConectaPro - Conectando profissionais a clientes</ui:define>
+    
+    <ui:define name="content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Encontre o profissional ideal para seu serviço</h1>
+                    <p>Conectamos você a profissionais qualificados e confiáveis para realizar seus serviços com qualidade e segurança.</p>
+                    <div class="hero-buttons">
+                        <p:button value="Buscar Profissional" styleClass="btn btn-primary" outcome="/views/login.xhtml" />
+                        <p:button value="Seja um Prestador" styleClass="btn btn-secondary" outcome="/views/cadastro-usuario.xhtml">
+                            <f:param name="tipo" value="prestador" />
+                        </p:button>
+                    </div>
+                </div>
+                <div class="search-container">
+                    <h2>O que você precisa hoje?</h2>
+                    <h:form styleClass="search-box">
+                        <p:selectOneMenu id="service-category" styleClass="cupertino-select">
+                            <f:selectItem itemLabel="Selecione uma categoria" itemValue="" />
+                            <f:selectItem itemLabel="Eletricista" itemValue="eletricista" />
+                            <f:selectItem itemLabel="Encanador" itemValue="encanador" />
+                            <f:selectItem itemLabel="Pintor" itemValue="pintor" />
+                            <f:selectItem itemLabel="Pedreiro" itemValue="pedreiro" />
+                            <f:selectItem itemLabel="Jardineiro" itemValue="jardineiro" />
+                            <f:selectItem itemLabel="Diarista" itemValue="diarista" />
+                        </p:selectOneMenu>
+                        <p:inputText placeholder="Digite sua cidade ou CEP" styleClass="cupertino-input" />
+                        <p:commandButton value="Buscar" styleClass="btn btn-primary" outcome="/index" />
+                    </h:form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categorias de Serviços -->
+        <section class="service-categories">
+            <div class="container">
+                <h2>Categorias Populares</h2>
+                <div class="categories-grid">
+                    <h:link outcome="/index" styleClass="category-card cupertino-card">
+                        <f:param name="categoria" value="eletricista" />
+                        <div class="category-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Eletricista</h3>
+                        <p>Instalações, reparos elétricos</p>
+                    </h:link>
+                    <h:link outcome="/index" styleClass="category-card cupertino-card">
+                        <f:param name="categoria" value="encanador" />
+                        <div class="category-icon">
+                            <i class="fas fa-wrench"></i>
+                        </div>
+                        <h3>Encanador</h3>
+                        <p>Reparos hidráulicos, instalações</p>
+                    </h:link>
+                    <h:link outcome="/index" styleClass="category-card cupertino-card">
+                        <f:param name="categoria" value="pintor" />
+                        <div class="category-icon">
+                            <i class="fas fa-paint-roller"></i>
+                        </div>
+                        <h3>Pintor</h3>
+                        <p>Pintura residencial e comercial</p>
+                    </h:link>
+                    <h:link outcome="/index" styleClass="category-card cupertino-card">
+                        <f:param name="categoria" value="pedreiro" />
+                        <div class="category-icon">
+                            <i class="fas fa-hammer"></i>
+                        </div>
+                        <h3>Pedreiro</h3>
+                        <p>Construções, reformas</p>
+                    </h:link>
+                    <h:link outcome="/index" styleClass="category-card cupertino-card">
+                        <f:param name="categoria" value="jardineiro" />
+                        <div class="category-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3>Jardineiro</h3>
+                        <p>Paisagismo, manutenção de jardins</p>
+                    </h:link>
+                    <h:link outcome="/index" styleClass="category-card cupertino-card">
+                        <f:param name="categoria" value="diarista" />
+                        <div class="category-icon">
+                            <i class="fas fa-broom"></i>
+                        </div>
+                        <h3>Diarista</h3>
+                        <p>Limpeza residencial e comercial</p>
+                    </h:link>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profissionais Destaque -->
+        <section class="featured-professionals">
+            <div class="container">
+                <h2>Profissionais em Destaque</h2>
+                <p:dataGrid id="professionals-grid" var="professional" value="" 
+                           columns="3" layout="grid" styleClass="professionals-grid">
+                    <p:card styleClass="professional-card">
+                        <f:facet name="header">
+                            <p:graphicImage value="/api/placeholder/300/200" alt="Profissional" styleClass="professional-image" />
+                            <span class="professional-category">teste</span>
+                        </f:facet>
+                        <f:facet name="title">
+                            <h3>teste</h3>
+                        </f:facet>
+                        <f:facet name="subtitle">
+                            <p:rating value="" readonly="true" />
+                            <p class="professional-location"><i class="fas fa-map-marker-alt"></i> teste, teste</p>
+                        </f:facet>
+                        <p>teste</p>
+                        <f:facet name="footer">
+                            <p:button value="Ver Perfil" styleClass="btn btn-outline" outcome="/index">
+                                <f:param name="id" value="" />
+                            </p:button>
+                        </f:facet>
+                    </p:card>
+                </p:dataGrid>
+                <div class="see-more">
+                    <p:button value="Ver mais profissionais" styleClass="btn btn-outline" outcome="/index" />
+                </div>
+            </div>
+        </section>
+
+        <!-- Como Funciona -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2>Como Funciona</h2>
+                <div class="steps-container">
+                    <div class="step cupertino-card">
+                        <div class="step-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Busque</h3>
+                        <p>Encontre profissionais qualificados na sua região</p>
+                    </div>
+                    <div class="step cupertino-card">
+                        <div class="step-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <h3>Escolha</h3>
+                        <p>Compare avaliações, portfólios e preços</p>
+                    </div>
+                    <div class="step cupertino-card">
+                        <div class="step-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h3>Agende</h3>
+                        <p>Marque o serviço de acordo com sua disponibilidade</p>
+                    </div>
+                    <div class="step cupertino-card">
+                        <div class="step-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Avalie</h3>
+                        <p>Compartilhe sua experiência e ajude outros usuários</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chamada para Ação -->
+        <section class="cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Comece a divulgar seus serviços hoje mesmo!</h2>
+                    <p>Junte-se a milhares de profissionais que já estão aumentando sua carteira de clientes através da nossa plataforma.</p>
+                    <p:button value="Cadastre-se como Profissional" outcome="/views/cadastro-usuario.xhtml" styleClass="btn btn-primary">
+                        <f:param name="tipo" value="prestador" />
+                    </p:button>
+                </div>
+                <div class="cta-image">
+                    <p:graphicImage value="/api/placeholder/500/300" alt="Profissional trabalhando" />
+                </div>
+            </div>
+        </section>
+
+        <!-- Depoimentos -->
+        <section class="testimonials">
+            <div class="container">
+                <h2>O que nossos usuários dizem</h2>
+                <p:carousel id="testimonials-slider" value="" var="depoimento" 
+                           numVisible="1" circular="true" autoPlayInterval="5000" styleClass="testimonials-slider">
+                    <div class="testimonial-card cupertino-card">
+                        <div class="testimonial-content">
+                            <p>teste</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <p:graphicImage value="/api/placeholder/60/60" alt="Cliente" />
+                            </div>
+                            <div class="author-info">
+                                <h3>teste</h3>
+                                <p>teste</p>
+                                <p:rating value="" readonly="true" />
+                            </div>
+                        </div>
+                    </div>
+                </p:carousel>
+            </div>
+        </section>
+
+        <!-- Aplicativo -->
+        <section class="app-download">
+            <div class="container">
+                <div class="app-content">
+                    <h2>Baixe nosso aplicativo</h2>
+                    <p>Tenha todos os serviços na palma da sua mão. Busque, contrate e acompanhe serviços de qualquer lugar.</p>
+                    <div class="app-buttons">
+                        <a href="#" class="app-button">
+                            <i class="fab fa-google-play"></i>
+                            <span>Google Play</span>
+                        </a>
+                        <a href="#" class="app-button">
+                            <i class="fab fa-apple"></i>
+                            <span>App Store</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="app-image">
+                    <p:graphicImage value="/api/placeholder/300/600" alt="Aplicativo mobile" />
+                </div>
+            </div>
+        </section>
+    </ui:define>
+</ui:composition>
+</html>

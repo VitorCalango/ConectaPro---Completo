@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu Perfil - ConectaPro</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <h:outputStylesheet library="css" name="perfil-usuario.css" />
+</h:head>
+
+<h:body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">
+        <h:link outcome="/index">ConectaPro</h:link>
+      </div>
+      <nav class="user-nav">
+        <a href="#" class="user-nav-item"><i class="fas fa-bell"></i></a>
+        <a href="#" class="user-nav-item"><i class="fas fa-envelope"></i></a>
+        <p:menu overlay="true" trigger="userMenu" my="left top" at="left bottom">
+          <p:menuitem value="Meu Perfil" outcome="/perfil-usuario" />
+          <p:menuitem value="Configurações" outcome="/configuracoes" />
+          <p:separator />
+          <p:menuitem value="Sair" action="#{loginBean.logout}" />
+        </p:menu>
+        <div id="userMenu" class="user-menu">
+          <div class="user-avatar">
+            <p:graphicImage value="#{perfilUsuarioBean.usuario.fotoUrl}" alt="Foto de perfil" />
+          </div>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </nav>
+    </header>
+    
+    <section id="perfil-usuario">
+      <div class="profile-header">
+        <div class="profile-cover">
+          <p:graphicImage value="#{perfilUsuarioBean.usuario.fotoCapaUrl}" alt="Capa do perfil" styleClass="cover-image" />
+          <p:fileUpload styleClass="edit-cover-btn" mode="simple" skinSimple="true" update="@this">
+            <i class="fas fa-camera"></i>
+          </p:fileUpload>
+        </div>
+        
+        <div class="profile-info">
+          <div class="profile-avatar">
+            <p:graphicImage value="#{perfilUsuarioBean.usuario.fotoUrl}" alt="Foto de perfil" />
+            <p:fileUpload styleClass="edit-avatar-btn" mode="simple" skinSimple="true" update="@this">
+              <i class="fas fa-camera"></i>
+            </p:fileUpload>
+          </div>
+          <div class="profile-details">
+            <h1 class="profile-name">#{perfilUsuarioBean.usuario.nomeCompleto}</h1>
+            <p class="profile-location"><i class="fas fa-map-marker-alt"></i> #{perfilUsuarioBean.usuario.cidade}, #{perfilUsuarioBean.usuario.estado}</p>
+            <div class="profile-stats">
+              <div class="stat">
+                <span class="stat-value">#{perfilUsuarioBean.usuario.avaliacao}</span>
+                <span class="stat-label">
+                  <p:rating value="#{perfilUsuarioBean.usuario.avaliacao}" readonly="true" />
+                </span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">#{perfilUsuarioBean.usuario.totalServicos}</span>
+                <span class="stat-label">Serviços</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">#{perfilUsuarioBean.usuario.totalAvaliacoes}</span>
+                <span class="stat-label">Avaliações</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="profile-actions">
+        <p:button value="Adicionar Serviço" icon="fas fa-plus" outcome="/divulgar-servico" styleClass="btn btn-primary" />
+      </div>
+      
+      <p:tabView id="profileTabs" styleClass="profile-tabs">
+        <p:tab title="Editar Perfil">
+          <div class="cupertino-card">
+            <h:form>
+              <div class="form-group">
+                <p:outputLabel for="tipoUsuario" value="Tipo de Usuário" />
+                <p:selectOneMenu id="tipoUsuario" value="#{perfilUsuarioBean.usuario.tipo}" styleClass="cupertino-select" required="true">
+                  <f:selectItem itemLabel="Cliente" itemValue="cliente" />
+                  <f:selectItem itemLabel="Prestador de Serviço" itemValue="prestador" />
+                </p:selectOneMenu>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <p:outputLabel for="nome" value="Nome" />
+                  <p:inputText id="nome" value="#{perfilUsuarioBean.usuario.nome}" styleClass="cupertino-input" 
+                              placeholder="Seu nome" required="true" />
+                </div>
+                
+                <div class="form-group">
+                  <p:outputLabel for="sobrenome" value="Sobrenome" />
+                  <p:inputText id="sobrenome" value="#{perfilUsuarioBean.usuario.sobrenome}" styleClass="cupertino-input" 
+                              placeholder="Seu sobrenome" required="true" />
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <p:outputLabel for="email" value="Email" />
+                <p:inputText id="email" value="#{perfilUsuarioBean.usuario.email}" styleClass="cupertino-input" 
+                            placeholder="seuemail@exemplo.com" required="true">
+                  <f:validateRegex pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+                </p:inputText>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <p:outputLabel for="telefone" value="Telefone" />
+                  <p:inputMask id="telefone" value="#{perfilUsuarioBean.usuario.telefone}" mask="(99) 99999-9999" 
+                              styleClass="cupertino-input" placeholder="(00) 00000-0000" />
+                </div>
+                
+                <div class="form-group">
+                  <p:outputLabel for="cidade" value="Cidade" />
+                  <p:inputText id="cidade" value="#{perfilUsuarioBean.usuario.cidade}" styleClass="cupertino-input" 
+                              placeholder="Sua cidade" />
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <p:outputLabel for="estado" value="Estado" />
+                  <p:selectOneMenu id="estado" value="#{perfilUsuarioBean.usuario.estado}" styleClass="cupertino-select">
+                    <f:selectItems value="#{estadosBean.estados}" />
+                  </p:selectOneMenu>
+                </div>
+                
+                <div class="form-group">
+                  <p:outputLabel for="cep" value="CEP" />
+                  <p:inputMask id="cep" value="#{perfilUsuarioBean.usuario.cep}" mask="99999-999" 
+                              styleClass="cupertino-input" placeholder="00000-000" />
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <p:outputLabel for="descricao" value="Descrição/Apresentação" />
+                <p:inputTextarea id="descricao" value="#{perfilUsuarioBean.usuario.descricao}" styleClass="cupertino-input" 
+                                rows="4" placeholder="Fale um pouco sobre você ou seu serviço" />
+              </div>
+              
+              <div class="divider"></div>
+              
+              <div class="form-group">
+                <p:outputLabel value="Redes Sociais" />
+                
+                <div class="social-input">
+                  <div class="social-icon"><i class="fab fa-instagram"></i></div>
+                  <p:inputText value="#{perfilUsuarioBean.usuario.instagram}" styleClass="cupertino-input" 
+                              placeholder="Seu perfil do Instagram" />
+                </div>
+                
+                <div class="social-input">
+                  <div class="social-icon"><i class="fab fa-facebook"></i></div>
+                  <p:inputText value="#{perfilUsuarioBean.usuario.facebook}" styleClass="cupertino-input" 
+                              placeholder="Seu perfil do Facebook" />
+                </div>
+                
+                <div class="social-input">
+                  <div class="social-icon"><i class="fab fa-whatsapp"></i></div>
+                  <p:inputText value="#{perfilUsuarioBean.usuario.whatsapp}" styleClass="cupertino-input" 
+                              placeholder="Seu número do WhatsApp" />
+                </div>
+              </div>
+              
+              <div class="divider"></div>
+              
+              <h3 class="section-title">Alterar Senha</h3>
+              
+              <div class="form-group">
+                <p:outputLabel for="senhaAtual" value="Senha Atual" />
+                <p:password id="senhaAtual" value="#{perfilUsuarioBean.senhaAtual}" styleClass="cupertino-input" 
+                           placeholder="Digite sua senha atual" />
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <p:outputLabel for="novaSenha" value="Nova Senha" />
+                  <p:password id="novaSenha" value="#{perfilUsuarioBean.novaSenha}" styleClass="cupertino-input" 
+                             placeholder="Mínimo 8 caracteres" feedback="true" toggleMask="true" />
+                </div>
+                
+                <div class="form-group">
+                  <p:outputLabel for="confirmarSenha" value="Confirmar Nova Senha" />
+                  <p:password id="confirmarSenha" value="#{perfilUsuarioBean.confirmacaoSenha}" styleClass="cupertino-input" 
+                             placeholder="Repita sua nova senha" />
+                </div>
+              </div>
+              
+              <div class="form-footer">
+                <p:commandButton value="Salvar Alterações" action="#{perfilUsuarioBean.salvar}" styleClass="btn btn-primary" 
+                               update="@form" />
+              </div>
+            </h:form>
+          </div>
+        </p:tab>
+        
+        <p:tab title="Meus Serviços">
+          <div class="services-grid">
+            <p:repeat value="#{perfilUsuarioBean.servicos}" var="servico">
+              <div class="service-card cupertino-card">
+                <div class="service-image">
+                  <p:graphicImage value="#{servico.imagemUrl}" alt="Serviço" />
+                  <span class="service-category">#{servico.categoria}</span>
+                </div>
+                <div class="service-info">
+                  <h3>#{servico.titulo}</h3>
+                  <p class="service-location"><i class="fas fa-map-marker-alt"></i> #{servico.cidade}, #{servico.estado}</p>
+                  <p class="service-description">#{servico.descricao}</p>
+                  <div class="service-actions">
+                    <p:button value="Editar" icon="fas fa-edit" outcome="/editar-servico" styleClass="btn btn-outline">
+                      <f:param name="id" value="#{servico.id}" />
+                    </p:button>
+                    <p:commandButton value="Excluir" icon="fas fa-trash" styleClass="btn btn-outline danger"
+                                    action="#{perfilUsuarioBean.excluirServico.servico}" update="@form">
+                      <p:confirm header="Confirmação" message="Tem certeza que deseja excluir este serviço?" icon="pi pi-exclamation-triangle" />
+                    </p:commandButton>
+                  </div>
+                </div>
+              </div>
+            </p:repeat>
+            
+            <p:button outcome="/divulgar-servico" styleClass="add-service-card cupertino-card">
+              <div class="add-service-content">
+                <i class="fas fa-plus-circle"></i>
+                <p>Adicionar Novo Serviço</p>
+              </div>
+            </p:button>
+          </div>
+        </p:tab>
+        
+        <p:tab title="Avaliações">
+          <div class="reviews-container">
+            <p:repeat value="#{perfilUsuarioBean.avaliacoes}" var="avaliacao">
+              <div class="review-card cupertino-card">
+                <div class="review-header">
+                  <div class="reviewer-avatar">
+                    <p:graphicImage value="#{avaliacao.cliente.fotoUrl}" alt="Cliente" />
+                  </div>
+                  <div class="reviewer-info">
+                    <h3>#{avaliacao.cliente.nome}</h3>
+                    <p>#{avaliacao.dataFormatada}</p>
+                    <div class="review-rating">
+                      <p:rating value="#{avaliacao.nota}" readonly="true" />
+                    </div>
+                  </div>
+                </div>
+                <div class="review-content">
+                  <p>#{avaliacao.comentario}</p>
+                </div>
+                <div class="review-service">
+                  <span>Serviço: <strong>#{avaliacao.servico.titulo}</strong></span>
+                </div>
+              </div>
+            </p:repeat>
+          </div>
+        </p:tab>
+      </p:tabView>
+    </section>
+  </div>
+  
+  <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat" />
+    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+  </p:confirmDialog>
+</h:body>
+</html>

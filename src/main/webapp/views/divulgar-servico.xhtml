@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Divulgar Serviço - ConectaPro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <h:outputStylesheet library="css" name="divulgacao-servico.css" />
+</h:head>
+
+<h:body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">
+        <h:link outcome="/index">ConectaPro</h:link>
+      </div>
+    </header>
+    
+    <section id="divulgar-servico">
+      <div class="cupertino-card">
+        <h2>Divulgar um Novo Serviço</h2>
+        
+        <div class="image-upload">
+          <div class="image-preview">
+            <i class="fas fa-images"></i>
+          </div>
+          <p:fileUpload styleClass="upload-btn" mode="advanced" multiple="true" fileLimit="5" 
+                       allowTypes="/(\.|\/)(gif|jpe?g|png)$/" label="Adicionar fotos do seu trabalho" />
+          <small style="display: block; margin-top: 5px; color: var(--gray-color);">Adicione até 5 imagens para mostrar seus serviços</small>
+        </div>
+        
+        <h:form>
+          <div class="form-group">
+            <p:outputLabel for="tituloServico" value="Título do Serviço" />
+            <p:inputText id="tituloServico" value="#{divulgarServicoBean.servico.titulo}" styleClass="cupertino-input" 
+                        placeholder="Ex: Pintura Residencial Profissional" required="true" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <p:outputLabel for="categoria" value="Categoria" />
+              <p:selectOneMenu id="categoria" value="#{divulgarServicoBean.servico.categoria}" styleClass="cupertino-select" required="true">
+                <f:selectItem itemLabel="Selecione..." itemValue="" />
+                <f:selectItem itemLabel="Eletricista" itemValue="eletricista" />
+                <f:selectItem itemLabel="Encanador" itemValue="encanador" />
+                <f:selectItem itemLabel="Pintor" itemValue="pintor" />
+                <f:selectItem itemLabel="Pedreiro" itemValue="pedreiro" />
+                <f:selectItem itemLabel="Jardineiro" itemValue="jardineiro" />
+                <f:selectItem itemLabel="Diarista" itemValue="diarista" />
+                <f:selectItem itemLabel="Outro" itemValue="outro" />
+                <p:ajax update="subcategoria" />
+              </p:selectOneMenu>
+            </div>
+            
+            <div class="form-group">
+              <p:outputLabel for="subcategoria" value="Subcategoria" />
+              <p:selectOneMenu id="subcategoria" value="#{divulgarServicoBean.servico.subcategoria}" styleClass="cupertino-select">
+                <f:selectItem itemLabel="Selecione..." itemValue="" />
+                <f:selectItem itemLabel="Residencial" itemValue="residencial" />
+                <f:selectItem itemLabel="Comercial" itemValue="comercial" />
+                <f:selectItem itemLabel="Industrial" itemValue="industrial" />
+              </p:selectOneMenu>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <p:outputLabel for="descricaoServico" value="Descrição Detalhada" />
+            <p:inputTextarea id="descricaoServico" value="#{divulgarServicoBean.servico.descricao}" styleClass="cupertino-input" 
+                            rows="5" placeholder="Descreva seu serviço, experiência e diferenciais..." required="true" />
+          </div>
+          
+          <div class="location-section">
+            <div class="location-heading">
+              <div class="icon-circle">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <span>Área de Atendimento</span>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <p:outputLabel for="cidade" value="Cidade" />
+                <p:inputText id="cidade" value="#{divulgarServicoBean.servico.cidade}" styleClass="cupertino-input" 
+                            placeholder="Sua cidade" required="true" />
+              </div>
+              
+              <div class="form-group">
+                <p:outputLabel for="estado" value="Estado" />
+                <p:selectOneMenu id="estado" value="#{divulgarServicoBean.servico.estado}" styleClass="cupertino-select" required="true">
+                  <f:selectItem itemLabel="Selecione..." itemValue="" />
+                  <f:selectItems value="#{estadosBean.estados}" />
+                </p:selectOneMenu>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <p:outputLabel for="raioAtendimento" value="Raio de Atendimento (km)" />
+              <p:inputNumber id="raioAtendimento" value="#{divulgarServicoBean.servico.raioAtendimento}" 
+                            styleClass="cupertino-input" placeholder="Ex: 20" minValue="0" maxValue="500" />
+            </div>
+          </div>
+          
+          <div class="pricing-section">
+            <div class="pricing-heading">
+              <div class="icon-circle">
+                <i class="fas fa-dollar-sign"></i>
+              </div>
+              <span>Preços e Condições</span>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <p:outputLabel for="tipoPreco" value="Tipo de Preço" />
+                <p:selectOneMenu id="tipoPreco" value="#{divulgarServicoBean.servico.tipoPreco}" styleClass="cupertino-select">
+                  <f:selectItem itemLabel="Por hora" itemValue="hora" />
+                  <f:selectItem itemLabel="Por dia" itemValue="dia" />
+                  <f:selectItem itemLabel="Por serviço" itemValue="servico" />
+                  <f:selectItem itemLabel="A combinar" itemValue="combinar" />
+                  <p:ajax update="valorServico" />
+                </p:selectOneMenu>
+              </div>
+              
+              <div class="form-group">
+                <p:outputLabel for="valorServico" value="Valor (R$)" />
+                <p:inputNumber id="valorServico" value="#{divulgarServicoBean.servico.valor}" 
+                              styleClass="cupertino-input" symbol="R$ " symbolPosition="p" 
+                              decimalSeparator="," thousandSeparator="." decimalPlaces="2" 
+                              disabled="#{divulgarServicoBean.servico.tipoPreco eq 'combinar'}" />
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-footer">
+            <p:commandButton value="Cancelar" styleClass="btn btn-outline" immediate="true" action="/perfil-usuario?faces-redirect=true" />
+            <p:commandButton value="Publicar Serviço" action="#{divulgarServicoBean.salvar}" styleClass="btn btn-primary" />
+          </div>
+        </h:form>
+      </div>
+    </section>
+  </div>
+</h:body>
+</html>
